@@ -1,70 +1,11 @@
-{:name "cloud-itonami-isic-952"
- :title "Repair of Personal and Household Goods (ISIC 952)"
- :domain "repair-shop-administrative-coordination"
- :description "Administrative coordination for repair shops: intake scheduling, repair-status logistics tracking, parts/supply coordination"
- :scope-exclusions
- {:out-of-scope
-  ["Diagnostic/repair-technique decisions"
-   "Warranty/liability determinations"
-   "Pricing/quote-approval decisions"
-   "Safety-authority overrides"]
-  :blocking-patterns
-  {:en [#"(?i)diagnostic"
-        #"(?i)repair.?technique"
-        #"(?i)warranty"
-        #"(?i)liability"
-        #"(?i)price.?approval"
-        #"(?i)quote.?approval"]
-   :ja [#"診断"
-        #"修理.?方法"
-        #"保証"
-        #"責任"
-        #"価格.?承認"
-        #"見積もり.?承認"]}}
- :operations
- {:schedule-repair-intake
-  {:effect :propose
-   :description "Drop-off/pickup appointment scheduling"
-   :parameters [:customer-id :item-id :proposed-date]}
-  :coordinate-repair-status-update
-  {:effect :propose
-   :description "Administrative status-tracking logistics (item at stage X)"
-   :parameters [:item-id :new-status]}
-  :coordinate-supply-request
-  {:effect :propose
-   :description "Non-repair-part consumables ordering"
-   :parameters [:supply-id :quantity]}
-  :schedule-staff-shift-proposal
-  {:effect :propose
-   :description "Administrative shift PROPOSAL only (never binding)"
-   :parameters [:staff-id :proposed-date :shift-type]}
-  :flag-safety-concern
-  {:effect :propose
-   :description "Facility/equipment safety concerns for HUMAN review"
-   :parameters [:concern-type :concern-description]
-   :always-escalates true}}
- :governor-checks
- {:hard-check-1
-  {:id :item-unverified
-   :rule "Item must exist in store AND be independently :registered?/:verified?"
-   :re-derived-every-time true}
-  :hard-check-2
-  {:id :effect-not-propose
-   :rule "Effect must be :propose. Any other effect rejected outright."
-   :overridable false}
-  :hard-check-3
-  {:id :scope-exclusion
-   :rule "Block proposals touching: diagnostic/repair-technique, warranty/liability, pricing/quote-approval, safety-authority overrides"
-   :patterns-en [#"(?i)diagnostic" #"(?i)repair.?technique" #"(?i)warranty" #"(?i)liability" #"(?i)price.?approval" #"(?i)quote.?approval"]
-   :patterns-ja [#"診断" #"修理.?方法" #"保証" #"責任" #"価格.?承認" #"見積もり.?承認"]
-   :allowed-ops [:flag-safety-concern]}}
- :phases
- {:phase-0 {:name "read-only" :allowed-ops []}
-  :phase-1 {:name "safe-ops"
-            :allowed-ops [:schedule-repair-intake :coordinate-repair-status-update :coordinate-supply-request]}
-  :phase-2 {:name "extended-ops"
-            :allowed-ops [:schedule-repair-intake :coordinate-repair-status-update :coordinate-supply-request :schedule-staff-shift-proposal]}
-  :phase-3 {:name "full-ops"
-            :allowed-ops [:schedule-repair-intake :coordinate-repair-status-update :coordinate-supply-request :schedule-staff-shift-proposal :flag-safety-concern]
-            :auto-commits [:schedule-repair-intake :coordinate-repair-status-update :coordinate-supply-request :schedule-staff-shift-proposal]
-            :escalates [:flag-safety-concern]}}}
+{:itonami.blueprint/id "cloud-itonami-isic-952"
+ :itonami.blueprint/name "Repair of Personal and Household Goods - Administrative Coordination"
+ :itonami.blueprint/isic-rev4 "952"
+ :itonami.blueprint/domain :services/repair-shop-coordination
+ :itonami.blueprint/license "AGPL-3.0"
+ :itonami.blueprint/social-impact [:operational-efficiency :administrative-transparency]
+ :itonami.blueprint/governor :repairshop-governor
+ :itonami.blueprint/robotics false
+ :itonami.blueprint/required-technologies [:identity :forms :dmn :bpmn :audit-ledger]
+ :itonami.blueprint/status :public-oss
+ :itonami.blueprint/maturity :implemented}
