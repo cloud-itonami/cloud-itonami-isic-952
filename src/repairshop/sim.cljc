@@ -87,3 +87,11 @@
                     :result result
                     :passes? (= (:action result) (:expected-action scenario)))))
          scenarios)))
+
+#?(:clj
+   (defn -main [& _args]
+     (println "Repair-Shop Administrative Coordination Actor (ISIC 952) - Demo")
+     (println "=================================================================")
+     (doseq [scenario (run-all-scenarios)]
+       (println (if (:passes? scenario) "✓" "✗") (:name scenario)
+                 "->" (get-in scenario [:result :action])))))
