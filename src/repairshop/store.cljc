@@ -14,7 +14,8 @@
   (all-staff [store])
   (supply [store supply-id])
   (all-supplies [store])
-  (append-log [store entry]))
+  (append-log [store entry])
+  (ledger [store] "the append-only transaction log, oldest first"))
 
 ;; ---------------------- in-memory implementation ----------------------
 
@@ -48,7 +49,9 @@
     (vals @supplies-atom))
 
   (append-log [store entry]
-    (swap! log-atom conj (assoc entry :timestamp (js/Date.now)))))
+    (swap! log-atom conj (assoc entry :timestamp #?(:clj (System/currentTimeMillis) :cljs (js/Date.now)))))
+
+  (ledger [store] @log-atom))
 
 ;; ---------------------- constructor & demo data ----------------------
 
