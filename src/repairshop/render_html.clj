@@ -51,6 +51,9 @@
      :subject (or (:item-id proposal) (:supply-id proposal)
                   (:staff-id proposal) (:customer-id proposal)
                   (:concern-type proposal))
+     ;; Every directory entity this proposal touched, so a run shows up
+     ;; against the customer as well as against the item it names.
+     :refs (into #{} (keep proposal) [:item-id :supply-id :staff-id :customer-id])
      :action action
      :decision (:decision governance)
      :confidence (get-in result [:proposal :confidence])
@@ -176,9 +179,11 @@
 (defn- by-id [coll] (sort-by (comp str :id) coll))
 
 (defn- journal-for
-  "Every journal fact whose subject is `id`, in run order."
+  "Every journal fact that referenced entity `id`, in run order. Matches
+  on the full reference set, not just the nominal subject, so an intake
+  booking shows against the customer as well as the item."
   [journal id]
-  (filter #(= (:subject %) id) journal))
+  (filter #(contains? (:refs %) id) journal))
 
 (defn- outcome-cell [journal id]
   (let [facts (journal-for journal id)]
