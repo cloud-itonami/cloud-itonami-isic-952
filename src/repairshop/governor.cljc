@@ -9,7 +9,7 @@
      warranty/liability determinations, pricing/quote-approval decisions, or
      safety-authority overrides is permanently blocked."
   (:require [repairshop.store :as store]
-            [clojure.string :as str]))
+            [kotoba.lang.text :as str]))
 
 ;; ---------------------- hard checks ----------------------
 
