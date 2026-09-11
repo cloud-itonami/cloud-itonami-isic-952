@@ -21,7 +21,7 @@
   the page is byte-identical across reruns against the same seed (verify
   by diffing two consecutive runs into scratch dirs).
 
-  Usage: `clojure -M:dev:render-html [out-file]`
+  Usage: `kbb -M:dev:render-html [out-file]`
   (default `docs/samples/operator-console.html`)."
   (:require [jp-go-dds.skin]
             [kotoba.lang.text :as str]
@@ -353,7 +353,7 @@
 
      "  <section class=\"card\">\n"
      "    <h2>How this page was produced</h2>\n"
-     "    <p class=\"muted\">Build-time output of <code>repairshop.render-html</code> (<code>clojure -M:dev:render-html</code>). "
+     "    <p class=\"muted\">Build-time output of <code>repairshop.render-html</code> (<code>kbb -M:dev:render-html</code>). "
      "It runs the real compiled langgraph-clj StateGraph in <code>repairshop.operation</code> against a fresh "
      "<code>repairshop.store/create-store</code> seed and prints what came back. No mock data and no hand-written rows: "
      "every id, name, phone, address, description, date, status and violation string below is read out of the store or out of "
