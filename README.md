@@ -49,7 +49,7 @@ All passing.
 ## Running Tests
 
 ```bash
-nbb -e "(require '[repairshop.test]) (repairshop.test/run-all-tests)"
+kbb --backend sci -e "(require '[repairshop.test]) (repairshop.test/run-all-tests)"
 ```
 
 Expected output: 20 test cases (✓), 5 scenarios (✓)
