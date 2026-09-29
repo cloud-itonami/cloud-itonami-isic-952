@@ -70,7 +70,7 @@ Entry 952:
 - ADR-2607121000: Cloud-itonami Wave-4 rollout plan
 - ADR-2607152500: Wave-4 amendment (ADR slot allocation)
 - ADR-2607154303: isic-949 design reference (module shape pattern)
-- CLAUDE.md: Actors pattern, build-actor skill, registry verification workflow
+- AGENTS.md: Actors pattern, build-actor skill, registry verification workflow
 
 ## License
 
